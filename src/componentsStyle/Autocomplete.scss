@@ -1,0 +1,15 @@
+div input.autocomplete {
+  padding: 0 10px !important;
+  font-size: 16px !important;
+}
+
+.autocomplete-content {
+  li {
+    min-height: 0;
+
+    > span {
+      padding: 0 10px;
+    }
+  }
+
+}

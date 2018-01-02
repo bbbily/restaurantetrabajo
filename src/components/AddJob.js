@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class App extends Component {
+class AddJob extends Component {
 
   render() {
     return (
@@ -11,4 +11,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default AddJob;

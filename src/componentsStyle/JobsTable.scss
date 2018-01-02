@@ -1,0 +1,14 @@
+.jobs-table {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      padding: 10px;
+    }
+    &.table-content li:last-child {
+      width: 100%;
+    }
+  }
+
+}
