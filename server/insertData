@@ -1,0 +1,5 @@
+insert into jobs
+(company_name, street, city, state, zipcode, phone, title, salary, post_date, experience, description, company_type)
+values ('Ichiban', '1020 delta ave', 'cincinnati', 'OH', 45226, '5139999999', 'sushi chef', '3500', '06/01/2017', 'proficiant', '3+ experience', 'togo'),
+('Asian paradise', '9521 ertor st', 'Loveland', 'OH', 45300, '5138802425', 'server', '3500', '05/27/2017', 'proficiant', 'server experience', 'dinein'),
+('Fulin''s Asian Cuisine', '5335 cane road', 'Nashville', 'TN', 39699, '6158804848', 'Fryer', '2500', '06/04/2017', 'any', 'hard worker', 'buffet')

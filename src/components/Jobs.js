@@ -21,7 +21,11 @@ class Jobs extends Component {
     axios({
       method: 'get',
       url: 'http://localhost:8080/api/jobs'
-    }).then(res => console.log(res))
+    }).then(res => {
+      this.setState({
+        jobs: res.data
+      })
+    })
   }
 
   componentWillMount() {

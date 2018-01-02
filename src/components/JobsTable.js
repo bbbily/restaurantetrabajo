@@ -34,13 +34,13 @@ class JobsTable extends Component {
 
     let jobs = this.props.jobs.map(job => (
       <ul className="table-content" key={ job.id }>
-        <li>{ job.jobTitle }</li>
-        <li>{ job.jobType }</li>
-        <li>{ job.expertise }</li>
+        <li>{ job.title }</li>
+        <li>{ job.company_type }</li>
+        <li>{ job.experience }</li>
         <li>{ job.salary }</li>
         <li>{ job.state }</li>
-        <li>{ job.contactNumber }</li>
-        <li>{ job.postDate }</li>
+        <li>{ job.phone }</li>
+        <li>{ job.post_date }</li>
         <li>{ job.detail }</li>
       </ul>
     ))
