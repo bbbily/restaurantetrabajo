@@ -6,7 +6,7 @@ import AddJob from './AddJob';
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={ Jobs } />
+      <Route exact path='/' render={ props => <Jobs { ...props } />} />
       <Route exact path='/addjob' component={ AddJob } />
     </Switch>
   </main>

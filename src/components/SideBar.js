@@ -69,16 +69,29 @@ class SideBar extends Component {
   }
 
   render() {
-    let listItems = this.props.listItems.map(listItem => (
+    let listItems = [];
+    this.props.listItems.map(listItem => (
       <li key={ listItem.name }>
         <p>{ listItem.name }</p>
         <ul>{listItem.items.map(item => {
           return (
-            <li key={ item.value } onClick={ this.handleClick.bind(this, item.value) }>{ item.text }</li>
+            <li key={ item.value }>
+              <a className="waves-effect"
+                onClick={ this.handleClick.bind(this, item.value) }>{ item.text }
+              </a>
+            </li>
           )})}
         </ul>
       </li>
-    ))
+    )).forEach(listItem => {
+    listItems.push(
+      <li className="divider" key={`${ listItem.key }divider`}>
+        test
+      </li>
+    )
+    listItems.push(listItem);
+    })
+
     return (
       <div>
         <p>{ `${ this.props.jobTitle } jobs in ${ this.props.state }` }</p>

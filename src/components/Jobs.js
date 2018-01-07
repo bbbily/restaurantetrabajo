@@ -9,19 +9,40 @@ class Jobs extends Component {
     super();
     this.state = {
       jobs: [],
-      jobTitle: '',
-      state: '',
-      jobType: '',
-      salary: null,
-      expertise: ''
+      queryObj: {
+        jobTitle: '',
+        state: '',
+        jobType: '',
+        salary: '',
+        expertise: ''
+      }
     }
+    this.getJobs = this.getJobs.bind(this);
   }
 
-  getJobs(queryObj) {
+  // updateQueryObj(obj) {
+  //   this.setState({
+  //     queryObj: { ...this.state.queryObj, ...obj }
+  //   })
+  // }
+
+  getJobs() {
+    let query = 'http://localhost:8080/api/jobs' + this.props.location.search;
+    // for (let prop in queryObj) {
+    //   if (queryObj[prop]) {
+    //     if (url.includes('?')) {
+    //       url += `&${queryObj[prop]}`
+    //     } else {
+    //       url += `?${queryObj[prop]}`
+    //     }
+    //   }
+    // }
+    console.log(query)
     axios({
       method: 'get',
-      url: 'http://localhost:8080/api/jobs'
+      url: query
     }).then(res => {
+      console.log(res)
       this.setState({
         jobs: res.data
       })
@@ -63,9 +84,6 @@ class Jobs extends Component {
       }
 
     ];
-    // this.setState({
-    //   jobs: jobs
-    // })
     this.getJobs();
   }
 
@@ -74,10 +92,10 @@ class Jobs extends Component {
       <div>
         <div className="row">
           <div className="col s3">
-            <SideBar jobTitle={ this.state.jobTitle } state={ this.state.state } />
+            <SideBar jobTitle={ this.state.queryObj.jobTitle } state={ this.state.queryObj.state } />
           </div>
           <div className="col s9">
-            <JobsTable jobs={ this.state.jobs } />
+            <JobsTable handleSubmit={ this.getJobs } { ...this.props } jobs={ this.state.jobs } />
           </div>
         </div>
       </div>

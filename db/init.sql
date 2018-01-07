@@ -31,7 +31,8 @@ create table if not exists Jobs(
   phone varchar(100),
   post_date text,
   experience varchar(100),
-  description text
+  description text,
+  free_housing varchar(100)
 );
 
 --

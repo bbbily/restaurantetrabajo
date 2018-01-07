@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import Autocomplete from './Autocomplete';
 import '../componentsStyle/JobsTable.css';
 
@@ -14,11 +13,26 @@ class JobsTable extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
+    let query = '';
+    if (this.state.jobTitle) {
+      query += `?jobTitle=${ this.state.jobTitle }`;
+      if (this.state.state) {
+        query += `&state=${ this.state.state }`;
+      }
+    } else {
+      if (this.state.state) {
+        query += `?state=${ this.state.state }`;
+      }
+    }
+    console.log(query, 'query')
+    this.props.history.push({
+      search: query
+    })
+    this.props.location.search = query;
+    this.props.handleSubmit();
   }
 
   handleChange(title, e) {
-    console.log(e.target.value)
     this.setState({
       [title]: e.target.value
     })
@@ -31,19 +45,22 @@ class JobsTable extends Component {
   }
 
   render() {
-
-    let jobs = this.props.jobs.map(job => (
-      <ul className="table-content" key={ job.id }>
-        <li>{ job.title }</li>
-        <li>{ job.company_type }</li>
-        <li>{ job.experience }</li>
-        <li>{ job.salary }</li>
-        <li>{ job.state }</li>
-        <li>{ job.phone }</li>
-        <li>{ job.post_date }</li>
-        <li>{ job.detail }</li>
-      </ul>
-    ))
+    console.log(this.props.jobs)
+    let jobs = [];
+    if (this.props.jobs) {
+      jobs = this.props.jobs.map(job => (
+        <ul className="table-content" key={ job.id }>
+          <li>{ job.title }</li>
+          <li>{ job.company_type }</li>
+          <li>{ job.experience }</li>
+          <li>{ job.salary }</li>
+          <li>{ job.state }</li>
+          <li>{ job.phone }</li>
+          <li>{ job.post_date }</li>
+          <li>{ job.detail }</li>
+        </ul>
+      ))
+    }
     return (
       // <div>
       //   <table>

@@ -1,8 +1,12 @@
 module.exports = {
   getJobs: (req, res) => {
     let db = req.app.get('db');
-    if (req.query) {
-      db.jobs.get_jobs('').then(jobs => {
+    console.log(req.query)
+    if (req.query.jobTitle) {
+      // db.jobs.get_jobs('').then(jobs => {
+      //   res.send(jobs)
+      // })
+      db.jobs.find({ title: req.query.jobTitle }).then(jobs => {
         res.send(jobs)
       })
     }
@@ -11,8 +15,8 @@ module.exports = {
         res.send(jobs)
       })
     }
-    // db.jobs.get_jobs_by_query(['fryer,server,sushi chef']).then(jobs => {
-    //   res.send(jobs)
-    // })
+    let title = req.query.title;
+    let salary = req.query.salary;
+    let state = req.query.state;
   }
 };
