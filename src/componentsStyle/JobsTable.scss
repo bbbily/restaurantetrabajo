@@ -1,14 +1,69 @@
-.jobs-table {
-  ul {
-    display: flex;
-    flex-wrap: wrap;
 
-    li {
-      padding: 10px;
+
+.jobs-table {
+  form {
+    input {
+      padding: 0 !important;
     }
-    &.table-content li:last-child {
-      width: 100%;
+    button {
+      bottom: -10px;
     }
+    .autocomplete-content {
+      position: absolute;
+    }
+  }
+  .jobs-table-container {
+    ul {
+      line-height: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      text-align: center;
+      border: #9e9e9e 0.5px solid;
+      margin-bottom: 20px;
+
+      li {
+        padding: 0 10px;
+        min-height: 42px;
+        margin: 0;
+        display: flex;
+        // width: 15%;
+        p, a {
+          display: block;
+          margin: auto;
+        }
+      }
+      li:nth-child(2n+1) {
+        width: 10%;
+      }
+      li:nth-child(2n) {
+        background: #9e9e9e;
+        width: 15%;
+      }
+      li:first-child {
+        width: 15%;
+      }
+      li:last-child {
+        width: 10%;
+      }
+      &.table-content li:first-child {
+        color: #039be5;
+      }
+      &.table-content {
+        margin: 0;
+      }
+    }
+    .table-content-detail {
+      display: flex;
+      justify-content: space-between;
+      p, a {
+        margin: 1px 0 25px 0;
+      }
+      p {
+        min-height: 42px;
+        line-height: 1.2rem;
+      }
+    }
+
   }
 
 }

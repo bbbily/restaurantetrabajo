@@ -4,97 +4,150 @@ class SideBar extends Component {
   constructor() {
     super();
     this.state = {
-
+      salary: [],
+      company_type: '',
+      experience: ''
     }
   }
 
   static defaultProps = {
     listItems: [
       {
-        name: 'Salary Estimate(Monthly)',
+        name: 'Salario(Mensual)',
+        key: 'salary',
         items: [
           {
-            text: '$1000',
-            value: 1000
+            text: 'Todas salario',
+            value: 0
           },
           {
-            text: '$2000',
-            value: 2000
+            text: '$0 - $999',
+            value: [1, 999]
           },
           {
-            text: '$3000',
-            value: 3000
+            text: '$1000 - $1999',
+            value: [1000, 1999]
+          },
+          {
+            text: '$2000 - $2999',
+            value: [2000, 2999]
+          },
+          {
+            text: '$3000+',
+            value: [3000, 9999]
           }
         ]
       },
       {
-        name: 'Job Type',
+        name: 'typo de restaurante',
+        key: 'company_type',
         items: [
           {
-            text: 'Full-time',
-            value: 'full'
+            text: 'Todas restaurante',
+            value: ''
           },
           {
-            text: 'Part-time',
-            value: 'part'
+            text: 'Comida',
+            value: 'comida'
           },
           {
-            text: 'Training',
-            value: 'train'
+            text: 'Buffet',
+            value: 'buffet'
+          },
+          {
+            text: 'Llevar a cabo',
+            value: 'llevar a cabo'
+          },
+          {
+            text: 'Comida rapida',
+            value: 'comida rapida'
           }
         ]
       },
       {
-        name: 'Experience Level',
+        name: 'nivel de experiencia',
+        key: 'experience',
         items: [
           {
-            text: 'Entry Level',
-            value: 'entry'
+            text: 'Todas experiencia',
+            value: ''
           },
           {
-            text: 'Mid level',
-            value: 'mid'
+            text: 'No experiencia',
+            value: 'no experiencia'
           },
           {
-            text: 'Senior Level',
-            value: 'senior'
+            text: '0-1 ano',
+            value: '0-1 ano'
+          },
+          {
+            text: '1-3 anos',
+            value: '1-3 anos'
+          },
+          {
+            text: '3 anos+',
+            value: 'mas de 3 anos'
           }
         ]
       },
     ]
   }
 
-  handleClick(value) {
-    console.log(value)
+  handleClick(key, value) {
+    let query = this.props.location.search;
+    if (query.includes(key)) {
+      let queryArr = [];
+      query.replace('?', '').split('&').forEach(str => {
+        let arr = str.split('=');
+        if (value !== '' && value !== 0 && arr[0] === key) {
+          arr[1] = value;
+          queryArr.push(arr.join('='));
+        } else if (arr[0] !== key) {
+          queryArr.push(arr.join('='));
+        }
+      })
+      if (queryArr.length > 0) {
+        query = '?' + queryArr.join('&');
+      } else {
+        query = '';
+      }
+    } else if (!query.includes(key) && query !== '' && value !== '' && value !== 0) {
+      query += `&${ key }=${ value }`;
+    } else if (!query.includes(key) && query === '' && value !== '' && value !== 0) {
+      query += `?${ key }=${ value }`;
+    }
+
+    this.props.history.push({
+      search: query
+    })
+    this.props.location.search = query;
+    this.props.handleClick();
   }
 
   render() {
     let listItems = [];
-    this.props.listItems.map(listItem => (
-      <li key={ listItem.name }>
-        <p>{ listItem.name }</p>
-        <ul>{listItem.items.map(item => {
-          return (
-            <li key={ item.value }>
-              <a className="waves-effect"
-                onClick={ this.handleClick.bind(this, item.value) }>{ item.text }
-              </a>
-            </li>
-          )})}
-        </ul>
-      </li>
-    )).forEach(listItem => {
-    listItems.push(
-      <li className="divider" key={`${ listItem.key }divider`}>
-        test
-      </li>
-    )
-    listItems.push(listItem);
-    })
+    this.props.listItems.forEach(listItem => {
+      listItems.push(
+        <li key={ listItem.name }>
+          <p>{ listItem.name }</p>
+          <ul>{listItem.items.map(item => {
+            return (
+              <li key={ item.value }>
+                <a className="waves-effect"
+                  onClick={ this.handleClick.bind(this, listItem.key, item.value) }>
+                  { item.text }
+                </a>
+              </li>
+            )})}
+          </ul>
+        </li>
+      )
+      listItems.push(<li className="divider" key={`${ listItem.key }divider`}></li>)
+    });
 
     return (
       <div>
-        <p>{ `${ this.props.jobTitle } jobs in ${ this.props.state }` }</p>
+        <p>{ `${ this.props.title } jobs ` + (this.props.state ? `in ${ this.props.state }` : '')}</p>
         <ul>
           { listItems }
         </ul>

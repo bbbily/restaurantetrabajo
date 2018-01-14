@@ -52,7 +52,7 @@ class Autocomplete extends Component {
           const index = key.toUpperCase().indexOf(value.toUpperCase());
           return (
             <li key={key + '_' + idx} onClick={this._onAutocomplete.bind(this, key)}>
-              {data[key] ? <img src={data[key]} className='right circle' /> : null}
+              {data[key] ? <img alt="" src={data[key]} className='right circle' /> : null}
               <span>
                 {index !== 0 ? key.substring(0, index) : ''}
                 <span className='highlight'>{value}</span>

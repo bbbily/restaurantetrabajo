@@ -23,7 +23,7 @@ create table if not exists Jobs(
   company_name varchar(100),
   company_type varchar(100),
   title varchar(100),
-  salary varchar(100),
+  salary integer,
   street varchar(100),
   city varchar(100),
   state varchar(100),
@@ -32,12 +32,16 @@ create table if not exists Jobs(
   post_date text,
   experience varchar(100),
   description text,
-  free_housing varchar(100)
+  free_housing varchar(100),
+  default_phone varchar(100)
 );
 
---
--- create table if not exists Job_applied(
---   id serial primary key,
---   job_id integer references Jobs(id) on delete cascade,
---   user_id integer references Users(id) on delete cascade
--- );
+
+create table if not exists Job_applied(
+  id serial primary key,
+  job_id integer references Jobs(id) on delete cascade,
+  person_name varchar(100),
+  person_phone varchar(100),
+  person_state varchar(100),
+  person_city varchar(100)
+);
