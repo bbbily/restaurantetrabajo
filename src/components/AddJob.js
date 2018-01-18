@@ -37,7 +37,8 @@ class AddJob extends Component {
       let date = new Date();
       let url = 'http://localhost:8080/api/job';
       let salary = Number(this.state.salary);
-      let data = { ...this.state, salary: salary, postDate: `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }` };
+      let postDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`
+      let data = { ...this.state, salary: salary, postDate: postDate };
       axios({
         method: 'post',
         url: url,

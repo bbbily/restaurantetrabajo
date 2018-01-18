@@ -13,7 +13,7 @@ class Nav extends Component {
               <li><Link to="/">Jobs</Link></li>
               <li><Link to="/addjob">发布工作</Link></li>
             </ul>
-            <a href="#" className="right hide-on-med-and-down">Logo</a>
+            <Link to="/account/login" className="right">Sign In</Link>
           </div>
         </nav>
       </div>

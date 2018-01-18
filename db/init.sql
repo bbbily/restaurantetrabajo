@@ -1,22 +1,21 @@
--- create table if not exists Users (
---   id serial primary key,
---   fistname varchar(100),
---   lastname varchar(100),
---   city varchar(100),
---   state varchar(100),
---   zipcode varchar(100),
---   phone varchar(100),
---   register_date text,
---   resumeUrl text,
---   title varchar(100),
---   restaurant_exp varchar(100),
---   introduction varchar(100),
---   relocate boolean,
---   desired_salary varchar(20),
---   posted_amount integer,
---   account_type varchar(10),
---   postings integer
--- );
+create table if not exists Users (
+  id serial primary key,
+  email varchar(100),
+  password varchar(100),
+  name varchar(100),
+  city varchar(100),
+  state varchar(100),
+  zipcode varchar(100),
+  phone varchar(100),
+  register_date text,
+  resumeUrl text,
+  title varchar(100),
+  restaurant_exp varchar(100),
+  introduction varchar(100),
+  relocate boolean,
+  desired_salary varchar(20),
+  posted_amount integer
+);
 
 create table if not exists Jobs(
   id serial primary key,
@@ -43,5 +42,6 @@ create table if not exists Job_applied(
   person_name varchar(100),
   person_phone varchar(100),
   person_state varchar(100),
-  person_city varchar(100)
+  person_city varchar(100),
+  apply_date varchar(100)
 );

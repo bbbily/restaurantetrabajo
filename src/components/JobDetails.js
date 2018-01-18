@@ -46,8 +46,11 @@ class JobDetails extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let url = 'http://localhost:8080/api/appliedJob';
+    let date = new Date();
+    let applyDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`;
     let data = {};
     data.id = this.state.id;
+    data.apply_date = applyDate;
     data.person_name = this.state.person_name;
     data.person_city = this.state.person_city;
     data.person_state = this.state.person_state;
