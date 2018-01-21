@@ -1,0 +1,13 @@
+.job-details {
+  h4 {
+    margin-top: 0;
+  }
+  p {
+    margin-bottom: 0;
+  }
+  @media screen and (max-width: 600px) {
+    p {
+      margin: 0;
+    }
+  }
+}

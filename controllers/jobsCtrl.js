@@ -43,7 +43,7 @@ module.exports = {
   addJob: (req, res) => {
     let db = req.app.get('db');
     let data = req.body;
-    let defaultPhone = data.defaultPhone || '6156689287';
+    let defaultPhone = '615-668-9287';
     let arr = [ data.companName, data.companyType, data.jobTitle, data.salary,
       data.street, data.city, data.state, data.zipcode,
       data.phone, data.postDate, data.experience, data.description,

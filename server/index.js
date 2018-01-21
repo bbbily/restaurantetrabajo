@@ -36,27 +36,27 @@ const massiveServer = massive(config.MASSIVE_URI)
   app.get('/api/jobDetails/:id', jobsCtrl.getOneJob);
   app.post('/api/job', jobsCtrl.addJob);
   app.post('/api/appliedJob', jobsCtrl.addAppliedJob);
-  app.post('/api/register', usersCtrl.register);
-  app.get('/auth/facebook', passport.authenticate('facebook'));
-  app.get('/auth/google', passport.authenticate('google'));
-  app.get("/auth/facebook/callback", passport.authenticate("facebook", {
-    successRedirect: "http://localhost:3000/account/profile",
-    failureRedirect: "http://localhost:3000/account/login"
-  }));
-  app.get("/auth/google/callback", passport.authenticate("facebook", {
-    successRedirect: "http://localhost:3000/account/profile",
-    failureRedirect: "http://localhost:3000/account/login"
-  }));
-  app.post("/auth/local", passport.authenticate("local", {
-    // successRedirect: "http://localhost:3000/account/profile",
-    failureRedirect: "http://localhost:3000/account/profile",
-    failureFlash: true
-  }), (req, res) => {
-    console.log(req.user);
-    // res.setHeader('Access-Control-Allow-Origin', '*');
-    // res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    // res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type');
-    return res.redirect("http://localhost:3000/account/profile")
-    res.send(req.user)
-  });
+
+  // app.post('/api/register', usersCtrl.register);
+  // app.get('/auth/facebook', passport.authenticate('facebook'));
+  // app.get('/auth/google', passport.authenticate('google'));
+  // app.get("/auth/facebook/callback", passport.authenticate("facebook", {
+  //   successRedirect: "http://localhost:3000/account/profile",
+  //   failureRedirect: "http://localhost:3000/account/login"
+  // }));
+  // app.get("/auth/google/callback", passport.authenticate("facebook", {
+  //   successRedirect: "http://localhost:3000/account/profile",
+  //   failureRedirect: "http://localhost:3000/account/login"
+  // }));
+  // app.post("/auth/local", passport.authenticate("local", {
+  //   failureRedirect: "http://localhost:3000/account/profile",
+  //   failureFlash: true
+  // }), (req, res) => {
+  //   console.log(req.user);
+  //   res.setHeader('Access-Control-Allow-Origin', '*');
+  //   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  //   res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type');
+  //   return res.redirect("http://localhost:3000/account/profile")
+  //   res.send(req.user)
+  // });
 })

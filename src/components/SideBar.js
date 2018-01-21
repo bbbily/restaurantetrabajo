@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../componentsStyle/SideBar.css'
 
 class SideBar extends Component {
   constructor() {
@@ -130,7 +131,7 @@ class SideBar extends Component {
       listItems.push(
         <li key={ listItem.name }>
           <p>{ listItem.name }</p>
-          <ul>{listItem.items.map(item => {
+          <ul className="category">{listItem.items.map(item => {
             return (
               <li key={ item.value }>
                 <a className="waves-effect"
@@ -146,9 +147,9 @@ class SideBar extends Component {
     });
 
     return (
-      <div>
+      <div className="side-bar">
         <p>{ `${ this.props.title } jobs ` + (this.props.state ? `in ${ this.props.state }` : '')}</p>
-        <ul>
+        <ul className="category-list">
           { listItems }
         </ul>
       </div>

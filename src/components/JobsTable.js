@@ -89,19 +89,19 @@ class JobsTable extends Component {
         jobs.push(
           <ul className="table-content" key={ job.id }>
             <li><Link to={ `/jobs/${ job.id }` }>{ job.title.charAt(0).toUpperCase() + job.title.slice(1) }</Link></li>
-            <li><p>{ job.company_type.charAt(0).toUpperCase() + job.company_type.slice(1) }</p></li>
+            <li className="hide-on-small-and-down"><p>{ job.company_type.charAt(0).toUpperCase() + job.company_type.slice(1) }</p></li>
             <li><p>{ job.salary || 'Negociable' }</p></li>
             <li><p>{ job.experience.charAt(0).toUpperCase() + job.experience.slice(1) }</p></li>
             <li><p>{ job.state.toUpperCase() }</p></li>
-            <li><p>{ job.phone }</p></li>
-            <li><p>{ job.free_housing.charAt(0).toUpperCase() + job.free_housing.slice(1) }</p></li>
-            <li><p>{ job.post_date }</p></li>
+            <li className="hide-on-small-and-down"><p>{ job.phone || '615-668-9287' }</p></li>
+            <li className="hide-on-small-and-down"><p>{ job.free_housing.charAt(0).toUpperCase() + job.free_housing.slice(1) }</p></li>
+            <li className="hide-on-med-and-down"><p>{ job.post_date }</p></li>
           </ul>
         );
         jobs.push(
           <div className="table-content-detail" key={`detail${ job.id }`}>
             <p>{ job.description }</p>
-            <a className="waves-effect waves-light btn">Apply</a>
+            <Link to={ `/jobs/${ job.id }` } className="waves-effect waves-light btn">Aplica</Link>
           </div>
         );
       })
@@ -119,7 +119,7 @@ class JobsTable extends Component {
               onChange={ this.handleChange.bind(this, 'state') }
               data={ this.props.stateDefaultData } />
             <div className="input-field col s12 l2">
-              <button className="btn waves-effect waves-light" type="submit">Submit
+              <button className="btn waves-effect waves-light" type="submit">Entregar
               </button>
             </div>
           </div>
@@ -127,13 +127,13 @@ class JobsTable extends Component {
         <div className="jobs-table-container">
           <ul className="table-title">
             <li><p>Título profesional</p></li>
-            <li><p>Typo de restaurante</p></li>
+            <li className="hide-on-small-and-down"><p>Typo de restaurante</p></li>
             <li><p>Salario</p></li>
             <li><p>Experiencia</p></li>
             <li><p>Estado</p></li>
-            <li><p>Numero de contacto</p></li>
-            <li><p>Vivienda libre</p></li>
-            <li><p>Fecha posterior</p></li>
+            <li className="hide-on-small-and-down"><p>Numero de contacto</p></li>
+            <li className="hide-on-small-and-down"><p>Vivienda libre</p></li>
+            <li className="hide-on-med-and-down"><p>Fecha posterior</p></li>
           </ul>
           { jobs }
         </div>

@@ -52,11 +52,11 @@ class Jobs extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col s3">
+          <div className="col s12 m2">
             <SideBar { ...this.props } title={ this.state.title }
               state={ this.state.state } handleClick={ this.getJobs } />
           </div>
-          <div className="col s9">
+          <div className="col s12 m10">
             <JobsTable handleSubmit={ this.handleSubmit } { ...this.props }
               jobs={ this.state.jobs } title={ this.state.title } state={ this.state.state } />
           </div>

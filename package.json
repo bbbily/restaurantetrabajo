@@ -2,7 +2,6 @@
   "name": "restaurante-trabajo",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000",
   "dependencies": {
     "axios": "^0.17.1",
     "bcryptjs": "^2.4.3",

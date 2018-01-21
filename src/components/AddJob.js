@@ -44,7 +44,7 @@ class AddJob extends Component {
         url: url,
         data: data
       }).then(res => {
-        console.log(res)
+        this.props.history.push('/thankyou');
       })
     }
   }
@@ -83,6 +83,7 @@ class AddJob extends Component {
   }
 
   render() {
+    console.log(this.props)
     let jobTitleOption = this.props.jobTitleOption;
     let experienceOption = this.props.experienceOption;
     let restaurantTypeOption = this.props.restaurantTypeOption;
@@ -119,7 +120,7 @@ class AddJob extends Component {
               <textarea id="textarea1" name="description" className="materialize-textarea"
                 value={ this.state.description } onChange={ this.handleChange }>
               </textarea>
-              <label htmlFor="textarea1">工作职位描述(Job Description)：(可不填)</label>
+              <label htmlFor="textarea1">工作职位描述(Job Description)：(尽量口语化)</label>
             </div>
           </div>
           <h4>餐馆信息Restaurant Information：</h4>
@@ -144,9 +145,9 @@ class AddJob extends Component {
             </div>
             <div className="input-field col s12 m6 l4">
               <input name="phone" onChange={ this.handleChange }
-                value={ this.state.phone } type="tel"
-                className="validate" />
-              <label>联系电话Phone Number：(例6156689287，必填)</label>
+                value={ this.state.phone } type="tel" required="true"
+                aria-required="true" className="validate" />
+              <label>联系电话Phone Number：(例615-668-9287，必填)</label>
             </div>
             <div className="input-field col s12 m6 l4">
               <input type="text" className="validate" onChange={ this.handleChange }
@@ -213,8 +214,9 @@ class AddJob extends Component {
               <label>邮编Zip Code：</label>
             </div>
           </div>
-          <div className="input-field col s12 m6 l4">
-            <button className="btn waves-effect waves-light" type="submit">发布(Send)
+          <div className="input-field col s12">
+            <p className="left xitong">系统会自动将发布信息翻译成西班牙文显示在主页面</p>
+            <button className="btn waves-effect waves-light right" type="submit">发布(Send)
             </button>
           </div>
         </form>

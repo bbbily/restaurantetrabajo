@@ -1,0 +1,32 @@
+.side-bar {
+  .divider {
+    margin-top: 20px;
+    width: 80%;
+    min-width: 120px;
+  }
+  @media screen and (max-width: 700px) {
+    ul li a {
+      font-size: 12px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    ul.category-list > li {
+      &:nth-child(3), &:nth-child(4) {
+        display: none;
+      }
+    }
+    ul.category {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        padding-right: 15px;
+      }
+    }
+    .divider {
+      margin-top: 5px;
+    }
+    p {
+      margin: 5px 0;
+    }
+  }
+}

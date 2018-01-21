@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Input } from 'react-materialize';
+import '../componentsStyle/JobDetails.css';
 
 class JobDetails extends Component {
   constructor() {
@@ -75,16 +76,16 @@ class JobDetails extends Component {
   render() {
     if (!this.state.id) return <div>PAGE NOT FOUND!</div>
     return (
-      <div>
+      <div className="job-details">
         <div className="row">
           <div className="input-field col s12 m6">
             <h4>{ this.state.title }</h4>
           </div>
           <div className="input-field col s12 m6">
-            <p>Location: { (this.state.city ? `${ this.state.city }, ` : '') + this.state.state.toUpperCase() + ` ${ this.state.zipcode }` }</p>
+            <p>Localizacion: { (this.state.city ? `${ this.state.city }, ` : '') + this.state.state.toUpperCase() + ` ${ this.state.zipcode }` }</p>
           </div>
           <div className="input-field col s12">
-            <p>Job Description: { this.state.description }</p>
+            <p>Trabajo Description: { this.state.description }</p>
           </div>
           <div className="input-field col s12 m6 l4">
             <p>Nivel De Experiencia: { this.state.experience }</p>
@@ -98,23 +99,26 @@ class JobDetails extends Component {
           <div className="input-field col s12 m6 l4">
             <p>Vivienda libre: { this.state.free_housing }</p>
           </div>
+          <div className="input-field col s12 m6 l4">
+            <p>Typo de restaurante: { this.state.company_type }</p>
+          </div>
         </div>
         <form className="col s12 apply-job-form" onSubmit={ this.handleSubmit.bind(this) }>
           <div className="row">
             <div className="col s12">
-              <h4>Apply for this job:</h4>
+              <h4>Aplica para este trabajo:</h4>
             </div>
             <div className="input-field col s12 m4 l3">
               <input name="person_name" onChange={ this.handleChange } type="text"
                 value={ this.state.person_name } className="validate" />
-              <label htmlFor="person_name">Name：</label>
+              <label htmlFor="person_name">Nombre：</label>
             </div>
             <div className="input-field col s12 m4 l3">
               <input name="person_city" onChange={ this.handleChange } type="text"
                 value={ this.state.person_city } className="validate" />
-              <label htmlFor="person_city">City: </label>
+              <label htmlFor="person_city">Ciudad: </label>
             </div>
-            <Input label="State：" s={12} m={4} l={3} type="select" onChange={ this.handleChange }
+            <Input label="Estado：" s={12} m={4} l={3} type="select" onChange={ this.handleChange }
               value={ this.state.person_state } name="person_state">
               <option value="al">AL</option>
               <option value="ak">AK</option>
@@ -170,11 +174,12 @@ class JobDetails extends Component {
             </Input>
             <div className="input-field col s12 m4 l3">
               <input name="person_phone" onChange={ this.handleChange } type="text"
-                value={ this.state.person_phone } className="validate" />
-              <label htmlFor="person_phone">Phone: </label>
+                value={ this.state.person_phone } className="validate"  required="true"
+                aria-required="true" />
+              <label htmlFor="person_phone">Telefono: </label>
             </div>
             <div className="input-field col s12">
-              <button className="btn waves-effect waves-light" type="submit">发布(Send)
+              <button className="btn waves-effect waves-light right" type="submit">Entregar
               </button>
             </div>
           </div>
