@@ -8,18 +8,20 @@ class AddJob extends Component {
     super();
     this.state = {
       avoidBot: '',
-      jobTitle: 'freidora',
-      experience: 'todas',
+      jobTitle: '',
+      experience: '',
       salary: '',
       companyName: '',
-      companyType: 'buffet',
+      companyType: '',
       phone: '',
       street: '',
       city: '',
-      state: 'al',
+      state: '',
       zipcode: '',
-      freeHousing: 'si',
-      description: ''
+      freeHousing: '',
+      description: '',
+      chinese_desc: '',
+      isValid: true
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -33,20 +35,41 @@ class AddJob extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.avoidBot === '') {
-      let date = new Date();
-      let url = 'http://localhost:8080/api/job';
-      let salary = Number(this.state.salary);
-      let postDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`
-      let data = { ...this.state, salary: salary, postDate: postDate };
-      axios({
-        method: 'post',
-        url: url,
-        data: data
-      }).then(res => {
-        this.props.history.push('/thankyou');
-      })
+    if (this.state.jobTitle === '' || this.state.experience === ''
+      || this.state.companyType === '' || this.state.freeHousing === ''
+       || this.state.state === '' || this.state.salary === '') {
+        this.setState({
+          isValid: false
+        })
+        return;
+      } else if (this.state.avoidBot === '') {
+        if (this.state.chinese_desc) {
+          axios({
+            method: 'post',
+            url: '/api/translate',
+            data: { text: this.state.chinese_desc }
+          }).then(res => {
+            this.setState({ description: res.data }, this.addData);
+          })
+        } else {
+          this.addData();
+        }
     }
+  }
+
+  addData() {
+    let date = new Date();
+    let url = '/api/jobs';
+    let salary = Number(this.state.salary);
+    let postDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`
+    let data = { ...this.state, salary: salary, postDate: postDate };
+    axios({
+      method: 'post',
+      url: url,
+      data: data
+    }).then(res => {
+      this.props.history.push('/thankyou');
+    })
   }
 
   static defaultProps = {
@@ -83,7 +106,6 @@ class AddJob extends Component {
   }
 
   render() {
-    console.log(this.props)
     let jobTitleOption = this.props.jobTitleOption;
     let experienceOption = this.props.experienceOption;
     let restaurantTypeOption = this.props.restaurantTypeOption;
@@ -101,61 +123,66 @@ class AddJob extends Component {
         <form className="col s12 add-job-form" onSubmit={ this.handleSubmit.bind(this) }>
           <input type="text" name="avoidBot" onChange={ this.handleChange }
             className="best-name" />
-          <h4 className="form-job-heading">发布职位信息Job Information：</h4>
+          <h4 className="form-job-heading">发布职位信息Job Information:</h4>
           <div className="row">
-              <Input label="工作职位Job Title：" type="select" s={12} m={6} l={4} name="jobTitle"
+              <Input label="工作职位Job Title: (必填)" type="select" s={12} m={6} l={4} name="jobTitle"
                 value={ this.state.jobTitle } onChange={ this.handleChange }>
+                <option value="" disabled>请选择Choose:</option>
                 { jobTitleOptions }
               </Input>
-              <Input label="工作经验要求Experience：" type="select" s={12} m={6} l={4} name="experience"
+              <Input label="工作经验要求Experience: (必填)" type="select" s={12} m={6} l={4} name="experience"
                 value={ this.state.experience } onChange={ this.handleChange }>
+                <option value="" disabled>请选择Choose:</option>
                 { experienceOptions }
               </Input>
             <div className="input-field col s12 m6 l4">
               <input name="salary" onChange={ this.handleChange } type="text"
-                value={ this.state.salary } className="validate" />
-              <label htmlFor="salary">月工资Salary/Monthly：(例2000或面议)</label>
+                value={ this.state.salary } className="validate"/>
+              <label htmlFor="salary">月工资Salary/Monthly:(例2000或面议, (必填))</label>
             </div>
             <div className="input-field col s12">
-              <textarea id="textarea1" name="description" className="materialize-textarea"
-                value={ this.state.description } onChange={ this.handleChange }>
+              <textarea id="textarea1" name="chinese_desc" className="materialize-textarea"
+                value={ this.state.chinese_desc } onChange={ this.handleChange }>
               </textarea>
-              <label htmlFor="textarea1">工作职位描述(Job Description)：(尽量口语化)</label>
+              <label htmlFor="textarea1">工作职位描述(Job Description):(尽量口语化)</label>
             </div>
           </div>
-          <h4>餐馆信息Restaurant Information：</h4>
+          <h4>餐馆信息Restaurant Information:</h4>
           <div className="row">
             <div className="input-field col s12 m6 l4">
               <input name="companyName" type="text" className="validate" />
-              <label>餐馆名称Restaurant Name：</label>
+              <label>餐馆名称Restaurant Name:</label>
             </div>
-            <Input label="餐馆类型Restaurant Type：" type="select" s={12} m={6} l={4} name="companyType"
+            <Input label="餐馆类型Restaurant Type: (必填)" type="select" s={12} m={6} l={4} name="companyType"
               onChange={ this.handleChange } value={ this.state.companyType }>
+              <option value="" disabled>请选择Choose:</option>
               { restaurantTypeOptions }
             </Input>
-            <Input label="包吃住Free Housing：" s={12} m={6} l={4} type="select" onChange={ this.handleChange }
+            <Input label="包吃住Free Housing: (必填)" s={12} m={6} l={4} type="select" onChange={ this.handleChange }
               value={ this.state.freeHousing } name="freeHousing">
+              <option value="" disabled>请选择Choose:</option>
               <option value="si">是(Yes)</option>
               <option value="no">否(No)</option>
             </Input>
             <div className="input-field col s12 m6">
               <input type="text" className="validate" onChange={ this.handleChange }
                 name="street" value={ this.state.street } />
-              <label>餐馆地址Restaurant Address：(可不填)</label>
+              <label>餐馆地址Restaurant Address:</label>
             </div>
             <div className="input-field col s12 m6 l4">
               <input name="phone" onChange={ this.handleChange }
-                value={ this.state.phone } type="tel" required="true"
-                aria-required="true" className="validate" />
-              <label>联系电话Phone Number：(例615-668-9287，必填)</label>
+                value={ this.state.phone } type="tel" className="validate" maxLength="13" />
+              <label>联系电话Phone Number:(例615-668-9287，必填)</label>
             </div>
             <div className="input-field col s12 m6 l4">
               <input type="text" className="validate" onChange={ this.handleChange }
                 name="city" value={ this.state.city } />
-              <label>城市City：</label>
+              <label>城市City:</label>
             </div>
-            <Input label="州State：" s={12} m={6} l={4} type="select" onChange={ this.handleChange }
-              value={ this.state.state } name="state">
+            <Input label="州State: (必填)" s={12} m={6} l={4} type="select" onChange={ this.handleChange }
+              value={ this.state.state } name="state"
+              className="validate">
+              <option value="" disabled>请选择Choose:</option>
               <option value="al">AL</option>
               <option value="ak">AK</option>
               <option value="ar">AR</option>
@@ -211,9 +238,15 @@ class AddJob extends Component {
             <div className="input-field col s12 m6 l4">
               <input type="text" className="validate" onChange={ this.handleChange }
                 name="zipcode" value={ this.state.zipcode } />
-              <label>邮编Zip Code：</label>
+              <label>邮编Zip Code:</label>
             </div>
           </div>
+          {
+            this.state.isValid ||
+            <div className="col s12">
+              <h4 className="error center">请填写必填信息Plese fill out required fields.</h4>
+            </div>
+          }
           <div className="input-field col s12">
             <p className="left xitong">系统会自动将发布信息翻译成西班牙文显示在主页面</p>
             <button className="btn waves-effect waves-light right" type="submit">发布(Send)

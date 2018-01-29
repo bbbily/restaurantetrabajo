@@ -8,7 +8,9 @@ class Register extends Component {
     this.state = {
       email: '',
       retype_email: '',
-      password: ''
+      password: '',
+      retype_password: '',
+      error: false
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -22,8 +24,11 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.email === this.state.retype_email) {
-      let url = 'http://localhost:8080/api/register';
+    if (this.state.email === this.state.retype_email
+      && this.state.password === this.state.retype_password
+      && this.state.password !== '' && this.state.retype_password !== ''
+      && this.state.email !== '' && this.state.retype_email !== '' ) {
+      let url = '/api/register';
       let date = new Date();
       let registerDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`;
       let data = {};
@@ -33,17 +38,19 @@ class Register extends Component {
         url: url,
         data: data
       }).then(res => {
-        console.log(res);
+        this.props.history.push('/');
       })
     } else {
-      console.log('email not matched');
+      this.setState({
+        error: true
+      })
     }
   }
   render() {
     return (
       <div className="register">
         <div className="register-container row">
-          <h4>Create an Account</h4>
+          <h4>Crea una cuenta</h4>
           <form className="col s12" onSubmit={ this.handleSubmit.bind(this) }>
             <div className="input-field col s12">
               <input name="email" id="email1" type="email" className="validate"
@@ -53,20 +60,29 @@ class Register extends Component {
             <div className="input-field col s12">
               <input name="retype_email" id="email2" type="email" className="validate"
               onChange={ this.handleChange }/>
-              <label htmlFor="email2">Re-type Email</label>
+              <label htmlFor="email2">Escriba nuevamente el email</label>
             </div>
             <div className="input-field col s12">
               <input name="password" id="password" type="password" className="validate"
               onChange={ this.handleChange }/>
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Contrasena</label>
+            </div>
+            <div className="input-field col s12">
+              <input name="retype_password" id="retype_password" type="password" className="validate"
+              onChange={ this.handleChange }/>
+              <label htmlFor="retype_password">Escriba nuevamente el contrasena</label>
             </div>
             <div className="input-field col s12">
               <button className="btn waves-effect waves-light" type="submit">
-                Create Account
+                Enviar
               </button>
             </div>
+            { this.state.error &&
+              <div className="input-field col s12">
+                <p className="error">El correo electronico o la contrasena no coinciden!</p>
+            </div> }
           </form>
-          <div className="col s12">
+          {/* <div className="col s12">
             <p>or</p>
           </div>
           <div className="col s12">
@@ -84,8 +100,8 @@ class Register extends Component {
                 </button>
               </div>
             </div>
-          </div>
-          <Link to="/account/login">Have an account? Sign in</Link>
+          </div> */}
+          <Link to="/account/login">Tener una cuenta? Registrarse</Link>
         </div>
       </div>
     );

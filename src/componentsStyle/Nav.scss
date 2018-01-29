@@ -11,6 +11,20 @@
       margin: 15px 0;
     }
   }
+  .nav-wrapper .dropdown-content a {
+    background: #ee6e73;
+    color: white;
+
+    &:hover {
+      background: #e5535e;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    p, a {
+      font-size: 12px;
+      padding: 0 5px;
+    }
+  }
   @media screen and (max-width: 600px) {
     p, a {
       margin: 0 5px;

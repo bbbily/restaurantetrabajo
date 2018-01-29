@@ -24,7 +24,7 @@ class Jobs extends Component {
   }
 
   getJobs() {
-    let query = 'http://localhost:8080/api/jobs' + this.props.location.search;
+    let query = '/api/jobs' + this.props.location.search;
     axios({
       method: 'get',
       url: query

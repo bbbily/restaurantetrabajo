@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Autocomplete from './Autocomplete';
 import { Link } from 'react-router-dom';
+import Pagination from './Pagination';
 import '../componentsStyle/JobsTable.css';
 
 class JobsTable extends Component {
@@ -8,19 +9,10 @@ class JobsTable extends Component {
     super(props);
     this.state = {
       title: props.title,
-      state: props.state
+      state: props.state,
+      pageOfItems: props.jobs.slice(0, 10)
     }
   }
-  //
-  // componentWillMount() {
-  //   let query = this.props.location.search.replace('?', '').split('&');
-  //   let obj = {};
-  //   query.forEach(str => {
-  //     let arr = str.split('=');
-  //     obj[arr[0]] = arr[1].replace(/%20/, ' ');
-  //   })
-  //   this.setState(obj);
-  // }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -54,6 +46,12 @@ class JobsTable extends Component {
     })
   }
 
+  handleChangePage(pageOfItems) {
+    this.setState({
+      pageOfItems: pageOfItems
+    })
+  }
+
   static defaultProps = {
     titleDefaultData: {
       'freidora': null,
@@ -84,8 +82,8 @@ class JobsTable extends Component {
 
   render() {
     let jobs = [];
-    if (this.props.jobs) {
-      this.props.jobs.forEach(job => {
+    if (this.state.pageOfItems) {
+      this.state.pageOfItems.forEach(job => {
         jobs.push(
           <ul className="table-content" key={ job.id }>
             <li><Link to={ `/jobs/${ job.id }` }>{ job.title.charAt(0).toUpperCase() + job.title.slice(1) }</Link></li>
@@ -93,7 +91,7 @@ class JobsTable extends Component {
             <li><p>{ job.salary || 'Negociable' }</p></li>
             <li><p>{ job.experience.charAt(0).toUpperCase() + job.experience.slice(1) }</p></li>
             <li><p>{ job.state.toUpperCase() }</p></li>
-            <li className="hide-on-small-and-down"><p>{ job.phone || '615-668-9287' }</p></li>
+            <li className="hide-on-small-and-down"><p>{ job.phone.replace(/[A-Za-z]/g, '') || '615-668-9287' }</p></li>
             <li className="hide-on-small-and-down"><p>{ job.free_housing.charAt(0).toUpperCase() + job.free_housing.slice(1) }</p></li>
             <li className="hide-on-med-and-down"><p>{ job.post_date }</p></li>
           </ul>
@@ -136,6 +134,9 @@ class JobsTable extends Component {
             <li className="hide-on-med-and-down"><p>Fecha posterior</p></li>
           </ul>
           { jobs }
+        </div>
+        <div className="pagination">
+          <Pagination items={ this.props.jobs } onChangePage={ this.handleChangePage.bind(this) } />
         </div>
       </div>
     );

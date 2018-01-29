@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Input } from 'react-materialize';
 import '../componentsStyle/JobDetails.css';
@@ -21,10 +20,12 @@ class JobDetails extends Component {
       zipcode: '',
       free_housing: '',
       description: '',
+      viewed_amount: 0,
       person_name: '',
       person_city: '',
       person_state: '',
-      person_phone: ''
+      person_phone: '',
+      person_experience: ''
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -35,7 +36,7 @@ class JobDetails extends Component {
 
   getJobDetails() {
     let jobId = this.props.match.params.id;
-    let url = `http://localhost:8080/api/jobDetails/${ jobId }`;
+    let url = `/api/jobs/${ jobId }`;
     axios({
       method: 'get',
       url: url
@@ -46,7 +47,7 @@ class JobDetails extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let url = 'http://localhost:8080/api/appliedJob';
+    let url = '/api/appliedJob';
     let date = new Date();
     let applyDate = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`;
     let data = {};
@@ -56,12 +57,12 @@ class JobDetails extends Component {
     data.person_city = this.state.person_city;
     data.person_state = this.state.person_state;
     data.person_phone = this.state.person_phone;
+    data.person_experience = this.state.person_experience;
     axios({
       method: 'post',
       url: url,
       data: data
     }).then(res => {
-      console.log(res, this.props)
       this.props.history.push('/')
     })
   }
@@ -79,7 +80,7 @@ class JobDetails extends Component {
       <div className="job-details">
         <div className="row">
           <div className="input-field col s12 m6">
-            <h4>{ this.state.title }</h4>
+            <h4>{ this.state.title.toUpperCase() }</h4>
           </div>
           <div className="input-field col s12 m6">
             <p>Localizacion: { (this.state.city ? `${ this.state.city }, ` : '') + this.state.state.toUpperCase() + ` ${ this.state.zipcode }` }</p>
@@ -177,6 +178,11 @@ class JobDetails extends Component {
                 value={ this.state.person_phone } className="validate"  required="true"
                 aria-required="true" />
               <label htmlFor="person_phone">Telefono: </label>
+            </div>
+            <div className="input-field col s12 m4 l3">
+              <input name="person_experience" onChange={ this.handleChange } type="text"
+                value={ this.state.person_experience } className="validate" />
+              <label htmlFor="person_experience">Experiencia: </label>
             </div>
             <div className="input-field col s12">
               <button className="btn waves-effect waves-light right" type="submit">Entregar

@@ -17,7 +17,6 @@ module.exports = {
     newUser.password = hashPassword(newUser.password);
     newUser.email = newUser.email.toLowerCase();
     db.users.check_email([newUser.email]).then((user, err) => {
-      console.log(err, user)
       if (err) res.status(200).send(err);
       if (user[0]) {
         return res.status(200).send("This email is existing");
@@ -25,89 +24,56 @@ module.exports = {
         db.users.add_user([newUser.email, newUser.password]).then((user, err) => {
           if (err) res.status(200).send(err);
           delete user.password;
-          res.status(200).send("sign up successfully!");
+          res.status(200).send(user);
         })
       }
     })
   },
   me: (req, res, next) => {
-    if (!req.user) return res.status(200).send(false);
-    console.log("req.user",req.user)
-    return res.status(200).send(req.user);
+    if (!req.user) {
+      return res.status(200).send(false);
+    } else {
+      delete req.user.password;
+      return res.status(200).send(req.user);
+    }
   },
-  updateProfile: (req, res, next) => {
-    let updateUser = req.body;
-    // req.user = req.body;
-    updateUser.user_id = req.user.user_id;
-    db.users.save(updateUser, function(err, user) {
-      if (err) return res.status(200).send(err);
-      delete user.password;
-      req.session.passport.user = user;
-      console.log("update",user, req.user)
+  updateUser: (req, res) => {
+    let db = req.app.get('db');
+    let data = req.body;
+    let arr = [ data.email, data.name, data.city, data.state,
+      data.zipcode, data.phone, data.title, data.restaurant_exp,
+      data.introduction, data.relocate, data.desired_salary ];
+    db.users.update_user(arr).then(user => {
+      delete user[0].password;
+      req.session.passport.user = user[0];
+      res.status(200).send(user[0]);
+    })
+  },
+  deleteUser: (req, res) => {
+    let db = req.app.get('db');
+    let email = req.params.email;
+    db.users.delete_user(email).then(user => {
+      console.log('success')
       res.status(200).send(user);
     })
   },
   getUsers: (req, res) => {
     let db = req.app.get('db');
-    let query = req.query;
-    let findObj = {};
-    if (query) {
-      for (let prop in query) {
-        switch (prop) {
-        case 'salary':
-          let salaryArr = query.salary.split(',');
-          salaryArr[0] = parseInt(salaryArr[0]);
-          salaryArr[1] = parseInt(salaryArr[1]);
-          findObj['salary >='] = salaryArr[0];
-          findObj['salary <='] = salaryArr[1];
-          break;
-        case 'title':
-          let titleArr = query.title.toLowerCase().split(',').map(str => str.trim());
-          findObj.or = [{ 'title': titleArr }, { 'title ilike': `%${query.title}%` }]
-          break;
-        case 'state':
-          let stateArr = query.state.toLowerCase().split(',').map(str => str.trim());
-          if (query.hasOwnProperty('title')) {
-            findObj.or.forEach(obj => obj.or = [{ 'state': stateArr }, { 'state ilike': `%${query.state}%` }]);
-          } else {
-            findObj.or = [{ 'state': stateArr }, { 'state ilike': `%${query.state}%` }]
-          }
-          break;
-        default:
-          findObj[prop] = query[prop];
-          break;
-        }
-      }
-      db.jobs.find(findObj).then(jobs => {
-        res.send(jobs)
-      })
-    }
-    else {
-      db.jobs.get_jobs().then(jobs => {
-        res.send(jobs)
-      })
-    }
-  },
-  addUser: (req, res) => {
-    let db = req.app.get('db');
-    let data = req.body;
-    let defaultPhone = data.defaultPhone || '6156689287';
-    let arr = [ data.companName, data.companyType, data.jobTitle, data.salary,
-      data.street, data.city, data.state, data.zipcode,
-      data.phone, data.postDate, data.experience, data.description,
-      data.freeHousing, defaultPhone];
-    db.jobs.add_job(arr).then(jobs => {
-      console.log('success')
-      res.status(200).send(jobs);
+    db.users.get_users().then(users => {
+      res.send(users)
     })
   },
   getOneUser: (req, res) => {
     let db = req.app.get('db');
-    db.jobs.get_one_job(req.params.id).then(job => {
-      res.status(200).send(job);
+    db.users.check_email([req.params.email]).then((user, err) => {
+      if (err) res.status(200).send(err);
+      if (user[0]) {
+        delete user[0].password;
+        return res.status(200).send(user[0]);
+      }
     })
   },
-  logout: function(req, res, next) {
+  logOut: function(req, res, next) {
     req.logout();
     return res.status(200).send("log out");
   }

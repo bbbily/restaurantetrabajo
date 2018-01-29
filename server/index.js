@@ -7,7 +7,7 @@ const express = require('express')
 , cors = require('cors')
 , session = require("express-session")
 , passport = require("../services/passport")
-, flash = require('connect-flash')
+, translate = require('google-translate-api')
 , app = module.exports = express();
 
 // let corsOptions = {
@@ -23,7 +23,7 @@ app.use(cors());
 app.use(session({ secret: config.secret}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
+// app.use(flash());
 
 
 const massiveServer = massive(config.MASSIVE_URI)
@@ -33,30 +33,42 @@ const massiveServer = massive(config.MASSIVE_URI)
   app.listen(config.port, console.log(config.port));
 
   app.get('/api/jobs', jobsCtrl.getJobs);
-  app.get('/api/jobDetails/:id', jobsCtrl.getOneJob);
-  app.post('/api/job', jobsCtrl.addJob);
+  app.get('/api/jobs/:id', jobsCtrl.getOneJob);
+  app.post('/api/jobs', jobsCtrl.addJob);
+  app.delete('/api/jobs/:id', jobsCtrl.deleteJob);
+  app.get('/api/appliedJob', jobsCtrl.getAppliedJobs);
+  app.get('/api/appliedJob/:id', jobsCtrl.getOneAppliedJob);
   app.post('/api/appliedJob', jobsCtrl.addAppliedJob);
+  app.delete('/api/appliedJob/:id', jobsCtrl.deleteAppliedJob);
 
-  // app.post('/api/register', usersCtrl.register);
+  app.get('/api/users/:email', usersCtrl.getOneUser);
+  app.get('/api/users', usersCtrl.getUsers);
+  app.put('/api/users/:email', usersCtrl.updateUser);
+  app.delete('/api/users/:email', usersCtrl.deleteUser);
+
+  app.get('/api/me', usersCtrl.me);
+  app.post('/api/register', usersCtrl.register);
+  app.get('/api/logOut', usersCtrl.logOut);
+
+  app.post('/api/translate', (req, res) => {
+    let text = req.body.text;
+    translate(text, {to: 'es'}).then(spanish => {
+      res.status(200).send(spanish.text);
+    })
+  });
+
+  app.post("/auth/local", passport.authenticate("local", {
+    successRedirect: "/api/me",
+    failureRedirect: "/api/me"
+  }));
   // app.get('/auth/facebook', passport.authenticate('facebook'));
   // app.get('/auth/google', passport.authenticate('google'));
   // app.get("/auth/facebook/callback", passport.authenticate("facebook", {
   //   successRedirect: "http://localhost:3000/account/profile",
   //   failureRedirect: "http://localhost:3000/account/login"
   // }));
-  // app.get("/auth/google/callback", passport.authenticate("facebook", {
+  // app.get("/auth/google/callback", passport.authenticate("google", {
   //   successRedirect: "http://localhost:3000/account/profile",
   //   failureRedirect: "http://localhost:3000/account/login"
   // }));
-  // app.post("/auth/local", passport.authenticate("local", {
-  //   failureRedirect: "http://localhost:3000/account/profile",
-  //   failureFlash: true
-  // }), (req, res) => {
-  //   console.log(req.user);
-  //   res.setHeader('Access-Control-Allow-Origin', '*');
-  //   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  //   res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type');
-  //   return res.redirect("http://localhost:3000/account/profile")
-  //   res.send(req.user)
-  // });
 })

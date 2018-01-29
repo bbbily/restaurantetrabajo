@@ -47,16 +47,24 @@ module.exports = {
     let arr = [ data.companName, data.companyType, data.jobTitle, data.salary,
       data.street, data.city, data.state, data.zipcode,
       data.phone, data.postDate, data.experience, data.description,
-      data.freeHousing, defaultPhone];
+      data.freeHousing, defaultPhone ];
     db.jobs.add_job(arr).then(jobs => {
-      console.log('success')
       res.status(200).send(jobs);
+    })
+  },
+  deleteJob: (req, res) => {
+    let db = req.app.get('db');
+    let id = req.params.id;
+    db.jobs.delete_job(id).then(job => {
+      res.status(200).send(job);
     })
   },
   getOneJob: (req, res) => {
     let db = req.app.get('db');
-    db.jobs.get_one_job(req.params.id).then(job => {
-      res.status(200).send(job);
+    db.jobs.update_viewed_amount(req.params.id).then(result => {
+      db.jobs.get_one_job(req.params.id).then(job => {
+        res.status(200).send(job);
+      })
     })
   },
   addAppliedJob: (req, res) => {
@@ -65,8 +73,29 @@ module.exports = {
     let arr = [ data.id, data.person_name, data.person_city, data.person_state,
       data.person_phone, data.apply_date];
     db.jobs.add_applied_job(arr).then(job => {
-      console.log(job, 'job');
       res.status(200).send(job);
+    })
+  },
+  deleteAppliedJob: (req, res) => {
+    let db = req.app.get('db');
+    let id = req.params.id;
+    db.jobs.delete_applied_job(id).then(job => {
+      res.status(200).send(job);
+    })
+  },
+  getOneAppliedJob: (req, res) => {
+    let db = req.app.get('db');
+    let id = req.params.id;
+    db.jobs.get_one_applied_job(id).then(job => {
+      console.log(job, 'job');
+      res.status(200).send(job[0]);
+    })
+  },
+  getAppliedJobs: (req, res) => {
+    let db = req.app.get('db');
+    db.jobs.get_applied_jobs().then(jobs => {
+      console.log(jobs, 'job');
+      res.status(200).send(jobs);
     })
   }
 };

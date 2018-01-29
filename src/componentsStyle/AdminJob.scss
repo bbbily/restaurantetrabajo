@@ -1,0 +1,10 @@
+.admin-job {
+  table tr th {
+    text-align: center;
+  }
+  @media screen and (max-width: 992px) {
+    table tr th, table tr td {
+      font-size: 12px;
+    }
+  }
+}
