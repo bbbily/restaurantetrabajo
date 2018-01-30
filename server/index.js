@@ -5,6 +5,7 @@ const express = require('express')
 , jobsCtrl = require('../controllers/jobsCtrl')
 , usersCtrl = require('../controllers/usersCtrl')
 , cors = require('cors')
+, path = require('path')
 , session = require("express-session")
 , passport = require("../services/passport")
 , translate = require('google-translate-api')
@@ -18,8 +19,9 @@ const express = require('express')
 //   credentials: true,
 //   optionsSuccessStatus: 200
 // }
+app.use(express.static(path.join(__dirname + '/../build')));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));app.use(cors());
 app.use(session({ secret: config.secret}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -31,6 +33,10 @@ const massiveServer = massive(config.MASSIVE_URI)
   app.set('db', db);
   db.init();
   app.listen(config.port, console.log(config.port));
+
+  app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname + '/../build/index.html'));
+});
 
   app.get('/api/jobs', jobsCtrl.getJobs);
   app.get('/api/jobs/:id', jobsCtrl.getOneJob);

@@ -3,7 +3,7 @@ module.exports = {
     let db = req.app.get('db');
     let query = req.query;
     let findObj = {};
-    if (query) {
+    if (Object.keys(query).length !== 0) {
       for (let prop in query) {
         switch (prop) {
         case 'salary':
@@ -30,7 +30,7 @@ module.exports = {
           break;
         }
       }
-      db.jobs.find(findObj).then(jobs => {
+      db.jobs.find(findObj, { order: "id desc" }).then(jobs => {
         res.send(jobs)
       })
     }
@@ -87,14 +87,12 @@ module.exports = {
     let db = req.app.get('db');
     let id = req.params.id;
     db.jobs.get_one_applied_job(id).then(job => {
-      console.log(job, 'job');
       res.status(200).send(job[0]);
     })
   },
   getAppliedJobs: (req, res) => {
     let db = req.app.get('db');
     db.jobs.get_applied_jobs().then(jobs => {
-      console.log(jobs, 'job');
       res.status(200).send(jobs);
     })
   }

@@ -135,7 +135,7 @@ class JobsTable extends Component {
           </ul>
           { jobs }
         </div>
-        <div className="pagination">
+        <div className="pagination center">
           <Pagination items={ this.props.jobs } onChangePage={ this.handleChangePage.bind(this) } />
         </div>
       </div>

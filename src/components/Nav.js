@@ -25,7 +25,7 @@ class Nav extends Component {
 
   render() {
     const memberLink = (
-      <li>
+      <li className="hide-on-small-and-down">
         <Dropdown options={ ({ hover: true, belowOrigin: true }) }
           trigger={ <a>{ this.props.email }</a> }>
       	<Link to={ `/users/${ this.props.id }` }>Actualizar</Link>

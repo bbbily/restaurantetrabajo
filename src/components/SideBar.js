@@ -148,7 +148,7 @@ class SideBar extends Component {
 
     return (
       <div className="side-bar">
-        <p>{ `${ this.props.title } jobs ` + (this.props.state ? `in ${ this.props.state }` : '')}</p>
+        <p>{ `${ this.props.title.charAt(0).toUpperCase() + this.props.title.slice(1) } trabajos ` + (this.props.state ? `en ${ this.props.state }` : '')}</p>
         <ul className="category-list">
           { listItems }
         </ul>
