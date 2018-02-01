@@ -46,7 +46,7 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="login-container row">
-          <h4>Sign In</h4>
+          <h4>Registrarse</h4>
           <form className="col s12" onSubmit={ this.handleSubmit.bind(this) }>
             <div className="row">
               <div className="input-field col s12">
@@ -57,19 +57,19 @@ class Login extends Component {
               <div className="input-field col s12">
                 <input id="password" type="password" className="validate" name = "password"
                   onChange={ this.handleChange } />
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Contrasena</label>
                 </div>
                 {
                   this.state.error &&
                   <div className="input-field col s12">
-                    <p className="error">Wrong email or password.</p>
+                    <p className="error">Correo o contrasena equivocada.</p>
                   </div>
                 }
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <button className="btn waves-effect waves-light" type="submit">
-                  Submit
+                  Enviar
                 </button>
               </div>
             </div>
@@ -94,7 +94,7 @@ class Login extends Component {
               </div>
             </div>
           </div> */}
-          <Link to="/account/register">Don't have an account? Sign up</Link>
+          <Link to="/account/register">No tienes una cuenta? Registrate</Link>
         </div>
       </div>
     );

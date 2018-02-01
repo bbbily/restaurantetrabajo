@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import '../componentsStyle/SideBar.css'
 
 class SideBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      salary: [],
-      company_type: '',
-      experience: ''
+      salary: props.stateObj.salary,
+      company_type: props.stateObj.company_type,
+      experience: props.stateObj.experience
     }
   }
 
@@ -19,28 +19,28 @@ class SideBar extends Component {
         items: [
           {
             text: 'Todas salario',
-            value: 0
+            value: ''
           },
           {
             text: '$0 - $999',
-            value: [1, 999]
+            value: '1, 999'
           },
           {
             text: '$1000 - $1999',
-            value: [1000, 1999]
+            value: '1000, 1999'
           },
           {
             text: '$2000 - $2999',
-            value: [2000, 2999]
+            value: '2000, 2999'
           },
           {
             text: '$3000+',
-            value: [3000, 9999]
+            value: '3000, 999999'
           }
         ]
       },
       {
-        name: 'typo de restaurante',
+        name: 'Typo de restaurante',
         key: 'company_type',
         items: [
           {
@@ -66,7 +66,7 @@ class SideBar extends Component {
         ]
       },
       {
-        name: 'nivel de experiencia',
+        name: 'Nivel de experiencia',
         key: 'experience',
         items: [
           {
@@ -122,7 +122,7 @@ class SideBar extends Component {
       search: query
     })
     this.props.location.search = query;
-    this.props.handleClick();
+    this.props.handleClick(key, value);
   }
 
   render() {
@@ -134,7 +134,7 @@ class SideBar extends Component {
           <ul className="category">{listItem.items.map(item => {
             return (
               <li key={ item.value }>
-                <a className="waves-effect"
+                <a className={ `waves-effect ${ this.props.stateObj[listItem.key] == item.value ? 'is-active' : '' }` }
                   onClick={ this.handleClick.bind(this, listItem.key, item.value) }>
                   { item.text }
                 </a>
@@ -148,7 +148,7 @@ class SideBar extends Component {
 
     return (
       <div className="side-bar">
-        <p>{ `${ this.props.title.charAt(0).toUpperCase() + this.props.title.slice(1) } trabajos ` + (this.props.state ? `en ${ this.props.state }` : '')}</p>
+        <p>{ `${ this.props.stateObj.title.charAt(0).toUpperCase() + this.props.stateObj.title.slice(1) } trabajos ` + (this.props.state ? `en ${ this.props.state }` : '')}</p>
         <ul className="category-list">
           { listItems }
         </ul>

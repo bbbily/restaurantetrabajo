@@ -16,10 +16,18 @@ class Jobs extends Component {
     }
     this.getJobs = this.getJobs.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleSubmit(obj) {
     this.setState(obj);
+    this.getJobs();
+  }
+
+  handleClick(key, value) {
+    this.setState({
+      [key]: value
+    })
     this.getJobs();
   }
 
@@ -53,8 +61,7 @@ class Jobs extends Component {
       <div>
         <div className="row">
           <div className="col s12 m2">
-            <SideBar { ...this.props } title={ this.state.title }
-              state={ this.state.state } handleClick={ this.getJobs } />
+            <SideBar { ...this.props } stateObj={ this.state } handleClick={ this.handleClick } />
           </div>
           <div className="col s12 m10">
             <JobsTable handleSubmit={ this.handleSubmit } { ...this.props }

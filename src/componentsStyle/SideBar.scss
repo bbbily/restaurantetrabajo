@@ -4,6 +4,9 @@
     width: 80%;
     min-width: 120px;
   }
+  a.is-active {
+    color: #e5535e;
+  }
   @media screen and (max-width: 700px) {
     ul li a {
       font-size: 12px;
